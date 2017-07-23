@@ -111,22 +111,18 @@ Stack.prototype.contains = function(value) {
 
 /**
  * Get the number of pops until you get to a certain value
- * stack values - (first)h-g-f-e-d-c(last)
+ * stack values - (first)c-d-e-f-g-h(last)
  * myStack.until('f')
  * => 4
  * @param value
  */
 Stack.prototype.until = function(value) {
-  // (last) c -> d -> e -> f -> g -> h (first)
+  // (first) c -> d -> e -> f -> g -> h (last)
   for (var i = 0; i < this._count; i++) {
-    console.log('-- ', this._storage[i]);
-    if (this._storage[i] === value) {
-      return i + 1;
-    }
+    if (this._storage[i] === value) return i + 1;
   }
 
   return null;
-
   /*
   var index = 1;
 
