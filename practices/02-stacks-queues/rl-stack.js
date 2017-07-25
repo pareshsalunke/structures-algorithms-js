@@ -64,7 +64,7 @@ Stack.prototype.pop = function() {
  * Similiar to pop, but do not remove element from collection
  */
 Stack.prototype.peek = function() {
-  return this._storage[--this._count];
+  return this._storage[this._count - 1];
 
   /*
   var keys = Object.keys(this._storage);
@@ -177,3 +177,71 @@ console.log(myStack);
 //myStack.push(5);
 //myStack.push(2);
 //console.log(myStack.until(2));
+
+//____________________________________________
+// Implement a min stack
+function MinStack(capacity){
+  this._capacity = capacity || Infinity;
+  this._count = 0;
+  this._storage = {};
+  this._min = new Stack();
+}
+
+MinStack.prototype.push = function (value) {
+  if (this._count < this._capacity) {
+    if (this._min.count() === 0) {
+      this._min.push(value);
+    }
+    else if (this._min.peek() < value) {
+      this._min.push(this._min.peek());
+    }
+    else {
+      this._min.push(value);
+    }
+
+    this._storage[this._count++] = value;
+    return this._count;
+  }
+
+  return 'Max _capacity already reached. Remove element before adding a new one.';
+};
+
+MinStack.prototype.pop = function () {
+  if (this._count === 0) {
+    return 'No element inside the stack. Add element before poping.';
+  }
+
+  var value = this._storage[--this._count];
+  delete this._storage[this._count];
+  return value;
+};
+
+MinStack.prototype.peek = function () {
+  return this._storage[--this._count];
+};
+
+MinStack.prototype.count = function () {
+  return this._count;
+};
+
+MinStack.prototype.min = function () {
+  return this._min.peek();
+};
+
+
+var myMinStack = new MinStack();
+myMinStack.push(6);
+myMinStack.push(23);
+myMinStack.push(9);
+myMinStack.push(8);
+
+console.log('');
+console.log('____________________________________________');
+console.log('Implement a min stack');
+console.time('myMinStack');
+console.log(myMinStack.min(), 'should be 6');
+console.timeEnd('myMinStack');
+
+myMinStack.push(1);
+myMinStack.push(2);
+console.log(myMinStack.min(), 'should be 1');
